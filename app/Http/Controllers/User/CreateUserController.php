@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use illuminate\Support\Str;
+use User\ApplicationService\Create\CreateUserHandleService;
 
 class CreateUserController extends Controller
 {
     public function handle(
-        Request $http_request
-    ) {
+        Request $http_request,
+        CreateUserHandleService $service
+    ): JsonResponse {
         $validate = $http_request->validate(
             [
                 'name' => ['required', 'string', 'between:1,20'],
@@ -22,18 +23,10 @@ class CreateUserController extends Controller
             ]
         );
 
-        if (User::where('email', $validate['email'])->first()) {
-            return response()->json([], 409);
-        }
-
-        User::create(
-            [
-                'user_id' => (string)Str::uuid(),
-                'user_name' => $validate['name'],
-                'email' => $validate['email'],
-                'permission' => $validate['permission'],
-                'password' => bcrypt(Str::random(10)),
-            ]
+        $service->handle(
+            $validate['name'],
+            $validate['email'],
+            $validate['permission']
         );
 
         return response()->json();

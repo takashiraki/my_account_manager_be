@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Users\StubGenerator\Create\Handle;
+namespace User\StubGenerator\Create\Handle;
 
 use User\UseCase\Create\Handle\CreateUserHandleRequest;
 use User\UseCase\Create\Handle\CreateUserHandleRequester;

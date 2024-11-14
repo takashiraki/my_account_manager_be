@@ -6,5 +6,5 @@ namespace User\UseCase\Create\Handle;
 
 interface CreateUserHandleRequester
 {
-    public function handle(CreateUserHandleRequest $request): CreateUserHandleResponse;
+    public function handle(CreateUserHandleRequest $app_request): CreateUserHandleResponse;
 }

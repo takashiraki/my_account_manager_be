@@ -10,6 +10,7 @@ use Basic\ApplicationService\UuidInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use User\ApplicationService\Create\Handle\CreateUserHandleApplicationService;
+use USer\ApplicationService\Create\Handle\CreateUserHandleResult;
 use User\ApplicationService\Error\UserError;
 use User\Domain\User\HashedPassword;
 use User\Domain\User\PasswordHasherInterface;
@@ -74,7 +75,11 @@ class CreateUserHandleApplicationServiceTest extends TestCase
             'admin'
         );
 
-        $expect_app_response = new CreateUserHandleResponse();
+        $expect_app_response = new CreateUserHandleResponse(
+            CreateUserHandleResult::success(
+                user: $this->createStub(User::class)
+            )
+        );
 
         $interactor = new CreateUserHandleApplicationService(
             $this->user_factory,
@@ -105,9 +110,11 @@ class CreateUserHandleApplicationServiceTest extends TestCase
         );
 
         $expect_app_response = new CreateUserHandleResponse(
-            request_error_messages:[
-                'email' => UserError::EMAIL_ALREADY_EXIST,
-            ]
+            CreateUserHandleResult::requestError(
+                request_error_messages:[
+                    'email' => UserError::EMAIL_ALREADY_EXIST,
+                ]
+            )
         );
 
         $interactor = new CreateUserHandleApplicationService(
@@ -152,9 +159,11 @@ class CreateUserHandleApplicationServiceTest extends TestCase
         );
 
         $expect_app_response = new CreateUserHandleResponse(
-            handle_error_messages:[
-                'handle_error' => 'error',
-            ]
+            CreateUserHandleResult::handleError(
+                handle_error_messages:[
+                    'handle_error' => 'error',
+                ]
+            )
         );
 
         $interactor = new CreateUserHandleApplicationService(

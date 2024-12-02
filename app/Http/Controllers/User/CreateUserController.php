@@ -5,29 +5,41 @@ declare(strict_types=1);
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\CreateUserRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use User\ApplicationService\Create\CreateUserHandleService;
+use User\UseCase\Create\Handle\CreateUserHandleRequest;
+use User\UseCase\Create\Handle\CreateUserHandleRequester;
 
 class CreateUserController extends Controller
 {
     public function handle(
-        Request $http_request,
-        CreateUserHandleService $service
+        CreateUserRequest $http_request,
+        CreateUserHandleRequester $service
     ): JsonResponse {
-        $validate = $http_request->validate(
-            [
-                'name' => ['required', 'string', 'between:1,20'],
-                'email' => ['required', 'email:filter,dns', 'between:1,100'],
-                'permission' => ['required', 'in:admin,employee,viewer', 'between:1,100'],
-            ]
+        $app_request = new CreateUserHandleRequest(
+            $http_request->input('name'),
+            $http_request->input('email'),
+            $http_request->input('permission')
         );
 
-        $service->handle(
-            $validate['name'],
-            $validate['email'],
-            $validate['permission']
-        );
+        $app_response = $service->handle($app_request);
+
+        if ($app_response->result->iserror()) {
+            $status = '';
+            $message = [];
+
+            if ($app_response->result->request_error_messages !== null) {
+                $status = '422';
+                $message = $app_response->result->request_error_messages;
+            }
+
+            if ($app_response->result->handle_error_messages !== null) {
+                $status = '500';
+                $message = $app_response->result->handle_error_messages;
+            }
+
+            return response()->json($message, $status);
+        }
 
         return response()->json();
     }

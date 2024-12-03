@@ -23,7 +23,8 @@ class CreateUserTest extends TestCase
             '/api/user/store',
             [
                 'name' => 'test',
-                'email' => config('mail.test.email'),
+                'email' => 'hogehoge@hogehoge.com',
+                'permission' => 'admin',
             ]
         );
 

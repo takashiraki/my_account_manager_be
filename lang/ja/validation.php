@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /* メッセージの内容がご自身のアプリに適さない場合には、必要に応じて修正願います */
@@ -256,6 +258,8 @@ return [
         'updated_at' => '更新日',
         'username' => 'ユーザー名',
         'year' => '年',
+
+        'permission' => '権限',
     ],
 
 ];

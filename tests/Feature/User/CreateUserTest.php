@@ -129,6 +129,39 @@ class CreateUserTest extends TestCase
                     'item' => 'メールアドレスには、有効なメールアドレスを指定してください。',
                 ],
             ],
+            [
+                [
+                    'name' => 'hogehoge',
+                    'email' => 'hogehoge@hogehoge.com',
+                    'permission' => '',
+                ],
+                [
+                    'key' => 'permission',
+                    'item' => '権限は必ず指定してください。',
+                ],
+            ],
+            [
+                [
+                    'name' => 'hogehoge',
+                    'email' => 'hogehoge@hogehoge.com',
+                    'permission' => 1,
+                ],
+                [
+                    'key' => 'permission',
+                    'item' => '選択された権限は正しくありません。',
+                ],
+            ],
+            [
+                [
+                    'name' => 'hogehoge',
+                    'email' => 'hogehoge@hogehoge.com',
+                    'permission' => 'hogehoge',
+                ],
+                [
+                    'key' => 'permission',
+                    'item' => '選択された権限は正しくありません。',
+                ],
+            ],
         ];
     }
 }

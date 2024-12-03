@@ -8,6 +8,7 @@ use Basic\ApplicationService\RandomStringInterface;
 use Basic\ApplicationService\TransactionInterface;
 use Basic\ApplicationService\UuidInterface;
 use Exception;
+use USer\ApplicationService\Create\Handle\CreateUserHandleResult;
 use User\ApplicationService\Error\UserError;
 use User\Domain\User\PasswordHasherInterface;
 use User\Domain\User\UserDomainServiceInterface;
@@ -38,9 +39,11 @@ class CreateUserHandleApplicationService implements CreateUserHandleRequester
             $this->user_factory->createUserEmail($app_request->email)
         )) {
             return new CreateUserHandleResponse(
-                request_error_messages:[
-                    'email' => UserError::EMAIL_ALREADY_EXIST,
-                ]
+                CreateUserHandleResult::requestError(
+                    request_error_messages:[
+                        'email' => UserError::EMAIL_ALREADY_EXIST,
+                    ]
+                )
             );
         }
 
@@ -48,28 +51,32 @@ class CreateUserHandleApplicationService implements CreateUserHandleRequester
 
         $raw_password = $this->random_string->generate(self::PASSWORD_LENGTH);
 
+        $user = $this->user_factory->create(
+            $this->uuid->generate(),
+            $app_request->name,
+            $app_request->email,
+            $app_request->permission,
+            $this->password_hasher->hash($raw_password)
+        );
+
         try {
-            $this->user_repository->create(
-                $this->user_factory->create(
-                    $this->uuid->generate(),
-                    $app_request->name,
-                    $app_request->email,
-                    $app_request->permission,
-                    $this->password_hasher->hash($raw_password)
-                )
-            );
+            $this->user_repository->create($user);
 
             $this->transaction->commit();
         } catch (Exception $exception) {
             $this->transaction->rollback();
 
             return new CreateUserHandleResponse(
-                handle_error_messages:[
-                    'handle_error' => $exception->getMessage(),
-                ]
+                CreateUserHandleResult::handleError(
+                    handle_error_messages:[
+                        'handle_error' => $exception->getMessage(),
+                    ]
+                )
             );
         }
 
-        return new CreateUserHandleResponse();
+        return new CreateUserHandleResponse(
+            CreateUserHandleResult::success($user)
+        );
     }
 }

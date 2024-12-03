@@ -7,9 +7,11 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
+        "askdkc/breezejp": "^1.8",
         "fakerphp/faker": "^1.23",
         "friendsofphp/php-cs-fixer": "^3.64",
         "larastan/larastan": "^2.0",

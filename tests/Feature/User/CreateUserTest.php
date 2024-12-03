@@ -6,6 +6,7 @@ namespace Tests\Feature\User;
 
 use App\Http\Requests\User\CreateUserRequest;
 use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -93,6 +94,39 @@ class CreateUserTest extends TestCase
                 [
                     'key' => 'name',
                     'item' => '名前は、50文字以下で指定してください。',
+                ],
+            ],
+            [
+                [
+                    'name' => 'hogehoge',
+                    'email' => '',
+                    'permission' => 'admin',
+                ],
+                [
+                    'key' => 'email',
+                    'item' => 'メールアドレスは必ず指定してください。',
+                ],
+            ],
+            [
+                [
+                    'name' => 'hogehoge',
+                    'email' => 1,
+                    'permission' => 'admin',
+                ],
+                [
+                    'key' => 'email',
+                    'item' => 'メールアドレスには、有効なメールアドレスを指定してください。',
+                ],
+            ],
+            [
+                [
+                    'name' => 'hogehoge',
+                    'email' => Str::random(100) . '@hogehoge.com',
+                    'permission' => 'admin',
+                ],
+                [
+                    'key' => 'email',
+                    'item' => 'メールアドレスには、有効なメールアドレスを指定してください。',
                 ],
             ],
         ];

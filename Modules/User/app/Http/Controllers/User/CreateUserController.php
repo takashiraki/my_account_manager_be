@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\User;
+namespace Modules\User\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\CreateUserRequest;
 use Illuminate\Http\JsonResponse;
+use Modules\User\Http\Requests\User\CreateUserRequest;
 use User\UseCase\Create\Handle\CreateUserHandleRequest;
 use User\UseCase\Create\Handle\CreateUserHandleRequester;
 

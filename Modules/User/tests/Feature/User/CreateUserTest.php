@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\User\Tests\Feature\User;
 
-use App\Http\Requests\User\CreateUserRequest;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Str;
+use Modules\User\Http\Requests\User\CreateUserRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -21,7 +21,7 @@ class CreateUserTest extends TestCase
     public function testBasicHandle(): void
     {
         $response = $this->post(
-            '/api/user/store',
+            'api/v1/user/store',
             [
                 'name' => 'test',
                 'email' => 'hogehoge@hogehoge.com',

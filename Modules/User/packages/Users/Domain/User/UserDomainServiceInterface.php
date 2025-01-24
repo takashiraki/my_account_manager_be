@@ -6,5 +6,7 @@ namespace User\Domain\User;
 
 interface UserDomainServiceInterface
 {
+    public function existById(UserId $id): bool;
+    
     public function existByEmail(UserEmail $email): bool;
 }

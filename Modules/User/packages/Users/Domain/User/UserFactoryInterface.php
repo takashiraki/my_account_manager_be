@@ -14,5 +14,7 @@ interface UserFactoryInterface
         HashedPassword $password,
     ): User;
 
+    public function createUserId(string $id): UserId;
+
     public function createUserEmail(string $email): UserEmail;
 }

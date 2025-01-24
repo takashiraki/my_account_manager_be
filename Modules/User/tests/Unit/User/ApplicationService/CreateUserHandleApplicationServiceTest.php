@@ -8,6 +8,7 @@ use Basic\ApplicationService\RandomStringInterface;
 use Basic\ApplicationService\TransactionInterface;
 use Basic\ApplicationService\UuidInterface;
 use Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 use User\ApplicationService\Create\Handle\CreateUserHandleApplicationService;
 use USer\ApplicationService\Create\Handle\CreateUserHandleResult;
@@ -24,19 +25,19 @@ use User\UseCase\Create\Handle\CreateUserHandleResponse;
 
 class CreateUserHandleApplicationServiceTest extends TestCase
 {
-    private UserFactoryInterface $user_factory;
+    private UserFactoryInterface&MockObject $user_factory;
 
-    private UserDomainServiceInterface $user_domain_service;
+    private UserDomainServiceInterface&MockObject $user_domain_service;
 
-    private UserRepositoryInterface $user_repository;
+    private UserRepositoryInterface&MockObject $user_repository;
 
-    private PasswordHasherInterface $password_hasher;
+    private PasswordHasherInterface&MockObject $password_hasher;
 
-    private RandomStringInterface $random_string;
+    private RandomStringInterface&MockObject $random_string;
 
-    private UuidInterface $uuid;
+    private UuidInterface&MockObject $uuid;
 
-    private TransactionInterface $transaction;
+    private TransactionInterface&MockObject $transaction;
 
     public function setUp(): void
     {

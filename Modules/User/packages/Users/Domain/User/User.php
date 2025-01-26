@@ -11,7 +11,6 @@ class User
         private UserName $name,
         private UserEmail $email,
         private UserPermission $permission,
-        private HashedPassword $password
     ) {
     }
 
@@ -33,10 +32,5 @@ class User
     public function userPermission(): UserPermission
     {
         return $this->permission;
-    }
-
-    public function hashedPassword(): HashedPassword
-    {
-        return $this->password;
     }
 }

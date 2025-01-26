@@ -8,5 +8,7 @@ interface UserRepositoryInterface
 {
     public function create(User $user): void;
 
+    public function update(User $user): void;
+
     public function findById(UserId $user_id): ?User;
 }

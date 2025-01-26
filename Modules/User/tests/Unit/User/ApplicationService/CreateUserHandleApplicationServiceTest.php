@@ -13,8 +13,6 @@ use Tests\TestCase;
 use User\ApplicationService\Create\Handle\CreateUserHandleApplicationService;
 use USer\ApplicationService\Create\Handle\CreateUserHandleResult;
 use User\ApplicationService\Error\UserError;
-use User\Domain\User\HashedPassword;
-use User\Domain\User\PasswordHasherInterface;
 use User\Domain\User\User;
 use User\Domain\User\UserDomainServiceInterface;
 use User\Domain\User\UserEmail;
@@ -31,8 +29,6 @@ class CreateUserHandleApplicationServiceTest extends TestCase
 
     private UserRepositoryInterface&MockObject $user_repository;
 
-    private PasswordHasherInterface&MockObject $password_hasher;
-
     private RandomStringInterface&MockObject $random_string;
 
     private UuidInterface&MockObject $uuid;
@@ -46,7 +42,6 @@ class CreateUserHandleApplicationServiceTest extends TestCase
         $this->user_factory = $this->createStub(UserFactoryInterface::class);
         $this->user_domain_service = $this->createStub(UserDomainServiceInterface::class);
         $this->user_repository = $this->createStub(UserRepositoryInterface::class);
-        $this->password_hasher = $this->createStub(PasswordHasherInterface::class);
         $this->random_string = $this->createStub(RandomStringInterface::class);
         $this->uuid = $this->createStub(UuidInterface::class);
         $this->transaction = $this->createStub(TransactionInterface::class);
@@ -66,10 +61,6 @@ class CreateUserHandleApplicationServiceTest extends TestCase
 
         $this->random_string->method('generate')->willReturn('hogehogehogehogehogehogehogehogehoge');
 
-        $this->password_hasher->method('hash')->willReturn(
-            $this->createStub(HashedPassword::class)
-        );
-
         $app_request = new CreateUserHandleRequest(
             'hogehgoe',
             'hogehoge@example.com',
@@ -86,7 +77,6 @@ class CreateUserHandleApplicationServiceTest extends TestCase
             $this->user_factory,
             $this->user_domain_service,
             $this->user_repository,
-            $this->password_hasher,
             $this->random_string,
             $this->uuid,
             $this->transaction
@@ -122,7 +112,6 @@ class CreateUserHandleApplicationServiceTest extends TestCase
             $this->user_factory,
             $this->user_domain_service,
             $this->user_repository,
-            $this->password_hasher,
             $this->random_string,
             $this->uuid,
             $this->transaction
@@ -147,10 +136,6 @@ class CreateUserHandleApplicationServiceTest extends TestCase
 
         $this->random_string->method('generate')->willReturn('hogehogehogehogehogehogehogehogehoge');
 
-        $this->password_hasher->method('hash')->willReturn(
-            $this->createStub(HashedPassword::class)
-        );
-
         $this->user_repository->method('create')->willThrowException(new Exception('error'));
 
         $app_request = new CreateUserHandleRequest(
@@ -171,7 +156,6 @@ class CreateUserHandleApplicationServiceTest extends TestCase
             $this->user_factory,
             $this->user_domain_service,
             $this->user_repository,
-            $this->password_hasher,
             $this->random_string,
             $this->uuid,
             $this->transaction

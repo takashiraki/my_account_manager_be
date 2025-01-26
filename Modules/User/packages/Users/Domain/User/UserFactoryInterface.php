@@ -11,10 +11,11 @@ interface UserFactoryInterface
         string $name,
         string $email,
         string $permission,
-        HashedPassword $password,
     ): User;
 
     public function createUserId(string $id): UserId;
 
     public function createUserEmail(string $email): UserEmail;
+
+    public function createUserPermission(string $permission): UserPermission;
 }

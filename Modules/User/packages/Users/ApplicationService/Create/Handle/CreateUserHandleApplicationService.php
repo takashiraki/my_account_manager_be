@@ -10,7 +10,6 @@ use Basic\ApplicationService\UuidInterface;
 use Exception;
 use USer\ApplicationService\Create\Handle\CreateUserHandleResult;
 use User\ApplicationService\Error\UserError;
-use User\Domain\User\PasswordHasherInterface;
 use User\Domain\User\UserDomainServiceInterface;
 use User\Domain\User\UserFactoryInterface;
 use User\Domain\User\UserRepositoryInterface;
@@ -26,7 +25,6 @@ class CreateUserHandleApplicationService implements CreateUserHandleRequester
         private UserFactoryInterface $user_factory,
         private UserDomainServiceInterface $user_domain_service,
         private UserRepositoryInterface $user_repository,
-        private PasswordHasherInterface $password_hasher,
         private RandomStringInterface $random_string,
         private UuidInterface $uuid,
         private TransactionInterface $transaction
@@ -55,8 +53,7 @@ class CreateUserHandleApplicationService implements CreateUserHandleRequester
             $this->uuid->generate(),
             $app_request->name,
             $app_request->email,
-            $app_request->permission,
-            $this->password_hasher->hash($raw_password)
+            $app_request->permission
         );
 
         try {

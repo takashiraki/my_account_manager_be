@@ -9,11 +9,6 @@ use InvalidArgumentException;
 
 class UserPermission extends StringValueObject
 {
-    private array $permissions = [
-        'admin',
-        'viewer',
-    ];
-
     public function __construct(
         string $value
     ) {
@@ -21,10 +16,15 @@ class UserPermission extends StringValueObject
             throw new InvalidArgumentException('Permission is required.');
         }
         
-        if (! in_array($value, $this->permissions)) {
+        if (($permission = UserPermissions::tryFrom($value)) === null) {
             throw new InvalidArgumentException('Permission is invalid.');
         }
 
-        parent::__construct($value);
+        parent::__construct($permission->value);
+    }
+
+    public static function isExist(string $value): bool
+    {
+        return UserPermissions::tryFrom($value) !== null;
     }
 }

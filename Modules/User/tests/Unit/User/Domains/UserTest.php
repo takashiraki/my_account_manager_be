@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\User\Tests\Unit\User\Domains;
 
 use Tests\TestCase;
-use User\Domain\User\HashedPassword;
 use User\Domain\User\User;
 use User\Domain\User\UserEmail;
 use User\Domain\User\UserId;
@@ -20,14 +19,12 @@ class UserTest extends TestCase
         $name = new UserName('hogehoge');
         $email = new UserEmail('hogehoge@hogehoge.com');
         $permission = new UserPermission('admin');
-        $password = new HashedPassword('hogehogehogehogehogehogehogehogehoge');
 
         $user = new User(
             $id,
             $name,
             $email,
             $permission,
-            $password
         );
 
         $this->assertInstanceOf(
@@ -42,14 +39,12 @@ class UserTest extends TestCase
         $name = new UserName('hogehoge');
         $email = new UserEmail('hogehoge@hogehoge.com');
         $permission = new UserPermission('admin');
-        $password = new HashedPassword('hogehogehogehogehogehogehogehogehoge');
 
         $user = new User(
             $id,
             $name,
             $email,
-            $permission,
-            $password
+            $permission
         );
 
         $this->assertEquals(
@@ -70,11 +65,6 @@ class UserTest extends TestCase
         $this->assertEquals(
             'admin',
             $user->userPermission()->value()
-        );
-
-        $this->assertEquals(
-            'hogehogehogehogehogehogehogehogehoge',
-            $user->hashedPassword()->value()
         );
     }
 }

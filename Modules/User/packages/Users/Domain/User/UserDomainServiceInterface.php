@@ -9,4 +9,6 @@ interface UserDomainServiceInterface
     public function existById(UserId $id): bool;
     
     public function existByEmail(UserEmail $email): bool;
+
+    public function existByNewEmail(UserEmail $email): bool;
 }
